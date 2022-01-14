@@ -4,8 +4,8 @@ List-Mapped Trieを利用した集合を追加するData Pack。
 
 ## 特徴
 
-- 重複のない集合をMinecraftで使用できる
-- (様々な型に対応した集合を自作できる)
+- 重複のない集合をMinecraftで使用できる。
+- (様々な型に対応した集合を自作できる。)
 
 ## 機能
 
@@ -130,3 +130,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
 # 返り値の取得
   data modify storage hoge: lmt set from storage set_lmt.__temp__:set_int __io__.lmt
 ```
+
+## 謝辞
+
+このData Packでは[intsuc](https://twitter.com/intsuc)氏の[サイズ2³²/2分/遅延 list-mapped trie](https://twitter.com/intsuc/status/1442104841585582083)を利用させていただきました。
