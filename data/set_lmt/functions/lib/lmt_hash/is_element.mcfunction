@@ -21,7 +21,7 @@
   data modify storage set_lmt.__temp__:lib/lmt_hash __io__.lmt set from storage set_lmt.__temp__:lib/lmt __io__.lmt
 
 #
-  data modify storage set_lmt.__temp__:lib/lmt_hash __temp__.match_list set value []
-  data modify storage set_lmt.__temp__:lib/lmt_hash __temp__.match_list set from storage set_lmt.__temp__:lib/lmt_hash __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2]
-  data modify storage set_lmt.__temp__:lib/lmt_hash __io__.is_element set value 0b
-  function set_lmt:lib/lmt_hash/is_element_rec
+  data modify storage set_lmt.__temp__:lib/lmt_hash __temp__.cache set from storage set_lmt.__temp__:lib/lmt_hash __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2]
+  execute store result score $t0 set_lmt.temp run data modify storage set_lmt.__temp__:lib/lmt_hash __temp__.cache[] set from storage set_lmt.__temp__:lib/lmt_hash __io__.data
+  execute store result score $t1 set_lmt.temp if data storage set_lmt.__temp__:lib/lmt_hash __temp__.cache[]
+  execute store success storage set_lmt.__temp__:lib/lmt_hash __io__.is_element byte 1.0 unless score $t0 set_lmt.temp = $t1 set_lmt.temp

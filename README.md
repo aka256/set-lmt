@@ -131,6 +131,24 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
   data modify storage hoge: lmt set from storage set_lmt.__temp__:set_int __io__.lmt
 ```
 
+## 技術的な話
+
+### 実装
+
+このSetはLMTをハッシュテーブルとしたHashSetとなっている。ハッシュテーブルの詳細としては、サイズが$2^{32}$でオープンハッシュとなっている。
+
+### 計算量
+
+|操作|計算量|
+|:-:|:-:|
+|`insert`|$O(\log^2 n + k)$|
+|`is_element`|$O(\log^2 n + k)$|
+|`delete`|$O(\log^2 n + k^2\log n)$|
+
+なお、$n$はLMTのサイズ(今回だと$2^{32}$)、$k$はハッシュの衝突数を表している。
+
+Setに入る値が少ない場合はTAG_Listによる処理の方が素早く行えるが、多くなる場合には有利になると考えられる。(**要検証**)
+
 ## 謝辞
 
 このData Packでは[intsuc](https://twitter.com/intsuc)氏の[サイズ2³²/2分/遅延 list-mapped trie](https://twitter.com/intsuc/status/1442104841585582083)を利用させていただきました。
