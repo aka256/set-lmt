@@ -1,10 +1,11 @@
 # set-lmt
 
-List-Mapped Trieを利用した集合を追加するData Pack。
+List-Mapped Trieを利用した集合`set_lmt`を追加するData Pack。
 
 ## 特徴
 
 - 重複のない集合をMinecraftで使用できる。
+- 集合の要素数が増加しても`TAG_List`を線形に利用したものよりも、パフォーマンスの低下が起きにくくなる。
 - (様々な型に対応した集合を自作できる。)
 
 ## 機能
@@ -131,23 +132,23 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
   data modify storage hoge: lmt set from storage set_lmt.__temp__:set_int __io__.lmt
 ```
 
-## 技術的な話
+## 実装
 
-### 実装
+この`set_lmt`はLMTをハッシュテーブルとしたHashSetとなっている。ハッシュテーブルの詳細としては、サイズが$2^{32}$でオープンハッシュとなっている。
 
-このSetはLMTをハッシュテーブルとしたHashSetとなっている。ハッシュテーブルの詳細としては、サイズが$2^{32}$でオープンハッシュとなっている。
+## 計算量
 
-### 計算量
+`set_lmt`を用いた時と`TAG_List`を線形に利用した集合である`set_list`を用いた時の計算量の比較を以下に示す。
 
-|操作|計算量|
-|:-:|:-:|
-|`insert`|$O(\log^2 n + k)$|
-|`is_element`|$O(\log^2 n + k)$|
-|`delete`|$O(\log^2 n + k\log n)$|
+|操作|`set_lmt`|`set_list`|
+|:-:|:-:|:-:|
+|`insert`|$O(\log^2 n + k)$|$O(m)$|
+|`is_element`|$O(\log^2 n + k)$|$O(m)$|
+|`delete`|$O(\log^2 n + k\log n)$|$O(m)$|
 
-なお、$n$はLMTのサイズ(今回だと$2^{32}$)、$k$はハッシュの衝突数を表している。
+なお、$n$はLMTのサイズ(今回だと$2^{32}$)、$k$はハッシュの衝突数、$m$はlist内の要素数をそれぞれ表している。
 
-Setに入る値が少ない場合はTAG_Listによる処理の方が素早く行えるが、多くなる場合には有利になると考えられる。(**要検証**)
+集合に入る要素数が少ない場合は`set_list`の方が素早く行えるが、この数が大きくなり$m$の値が増えていくと`set_lmt`の方が有利になると考える。(**要検証**)
 
 ## 謝辞
 

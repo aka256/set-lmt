@@ -1,3 +1,6 @@
 {
-  "values":["set_lmt:load"]
+  "values":[
+    "set_lmt:load",
+    "set_list:load"
+  ]
 }
