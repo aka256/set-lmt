@@ -143,7 +143,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
 |:-:|:-:|
 |`insert`|$O(\log^2 n + k)$|
 |`is_element`|$O(\log^2 n + k)$|
-|`delete`|$O(\log^2 n + k^2\log n)$|
+|`delete`|$O(\log^2 n + k\log n)$|
 
 なお、$n$はLMTのサイズ(今回だと$2^{32}$)、$k$はハッシュの衝突数を表している。
 
