@@ -4,7 +4,7 @@
 tellraw @a "---[set_int]------------------------------------------------------------------"
 
 data merge storage set_lmt.__temp__:set_int {__io__:{data:0}}
-data modify storage set_lmt.__temp__:set_int __io__.lmt set from storage set_lmt:lib/lmt init_obj
+data modify storage set_lmt.__temp__:set_int __io__.lmt set from storage set_lmt:lib/lmt init_obj.4
 function set_lmt:set_int/insert
 data modify storage set_lmt.__temp__:set_int __io__.data set value 1
 function set_lmt:set_int/insert
@@ -42,7 +42,7 @@ tellraw @a [{"nbt":"__io__.data","storage": "set_lmt.__temp__:set_int"}," is ele
 tellraw @a "---[set_2d-vec]---------------------------------------------------------------"
 
 data merge storage set_lmt.__temp__:set_2d-vec {__io__:{data:[0, 0]}}
-data modify storage set_lmt.__temp__:set_2d-vec __io__.lmt set from storage set_lmt:lib/lmt init_obj
+data modify storage set_lmt.__temp__:set_2d-vec __io__.lmt set from storage set_lmt:lib/lmt init_obj.4
 function set_lmt:set_2d-vec/insert
 data modify storage set_lmt.__temp__:set_2d-vec __io__.data set value [1, 1]
 function set_lmt:set_2d-vec/insert
@@ -82,7 +82,7 @@ tellraw @a [{"nbt":"__io__.data","storage": "set_lmt.__temp__:set_2d-vec"}," is 
 tellraw @a "---[set_3d-vec]---------------------------------------------------------------"
 
 data merge storage set_lmt.__temp__:set_3d-vec {__io__:{data:[0, 0, 0]}}
-data modify storage set_lmt.__temp__:set_3d-vec __io__.lmt set from storage set_lmt:lib/lmt init_obj
+data modify storage set_lmt.__temp__:set_3d-vec __io__.lmt set from storage set_lmt:lib/lmt init_obj.4
 function set_lmt:set_3d-vec/insert
 data modify storage set_lmt.__temp__:set_3d-vec __io__.data set value [0, 0, 1]
 function set_lmt:set_3d-vec/insert
@@ -128,7 +128,7 @@ tellraw @a [{"nbt":"__io__.data","storage": "set_lmt.__temp__:set_3d-vec"}," is 
 tellraw @a "---[set_coordinates]-------------------------------------------------------------"
 
 data merge storage set_lmt.__temp__:set_coordinates {__io__:{data:[0, 0, 0]}}
-data modify storage set_lmt.__temp__:set_coordinates __io__.lmt set from storage set_lmt:lib/lmt init_obj
+data modify storage set_lmt.__temp__:set_coordinates __io__.lmt set from storage set_lmt:lib/lmt init_obj.4
 function set_lmt:set_coordinates/insert
 data modify storage set_lmt.__temp__:set_coordinates __io__.data set value [0, 0, 1]
 function set_lmt:set_coordinates/insert

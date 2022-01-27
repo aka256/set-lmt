@@ -1,5 +1,7 @@
-#> set_lmt:lib/lmt/_touch
+#> set_lmt:lib/lmt/_touch_32
 # @within set_lmt:lib/lmt/touch
+
+execute if data storage set_lmt.__temp__:lib/lmt __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2] run data modify storage set_lmt.__temp__:lib/lmt __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2] set from storage set_lmt.__temp__:lib/lmt __io__.lmt.cache
 
 execute store result score $t0 set_lmt.temp run data get storage set_lmt.__temp__:lib/lmt __io__.index
 execute store result score $t1 set_lmt.temp if data storage set_lmt.__temp__:lib/lmt __io__.lmt._[]
@@ -224,3 +226,5 @@ execute if score $t1 set_lmt.temp matches 0 run data modify storage set_lmt.__te
 execute if score $t1 set_lmt.temp matches 0 run scoreboard players set $t1 set_lmt.temp 2
 execute if score $t1 set_lmt.temp matches 3 if score $t0 set_lmt.temp matches 0.. run data remove storage set_lmt.__temp__:lib/lmt __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][2]
 execute if score $t1 set_lmt.temp matches 2 if score $t0 set_lmt.temp matches ..-1 run data modify storage set_lmt.__temp__:lib/lmt __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2] append value []
+
+data modify storage set_lmt.__temp__:lib/lmt __io__.lmt.cache set from storage set_lmt.__temp__:lib/lmt __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2]

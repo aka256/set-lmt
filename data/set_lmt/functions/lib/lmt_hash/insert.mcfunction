@@ -17,4 +17,4 @@
   function set_lmt:lib/lmt_hash/is_element
 
 #
-  execute if data storage set_lmt.__temp__:lib/lmt_hash {__io__:{is_element:false}} run data modify storage set_lmt.__temp__:lib/lmt_hash __io__.lmt._[-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2] append from storage set_lmt.__temp__:lib/lmt_hash __io__.data
+  execute if data storage set_lmt.__temp__:lib/lmt_hash {__io__:{is_element:false}} run data modify storage set_lmt.__temp__:lib/lmt_hash __io__.lmt.cache append from storage set_lmt.__temp__:lib/lmt_hash __io__.data
