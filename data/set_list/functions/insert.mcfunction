@@ -10,4 +10,4 @@
 
 function set_list:is_element
 
-execute if data storage set_list.__temp__: {__io__: {success: false}} run data modify storage set_list.__temp__: __io__.list append from storage set_list.__temp__: __io__.data
+execute if data storage set_list.__temp__: {__io__: {is_element: false}} run data modify storage set_list.__temp__: __io__.list append from storage set_list.__temp__: __io__.data
