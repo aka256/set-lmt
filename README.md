@@ -143,7 +143,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
 
 ## 実装
 
-この`set_lmt`はLMTをハッシュテーブルとし、オープンハッシュなHashSetとなっている。
+この`set_lmt`はLMTをハッシュテーブルとした、オープンハッシュなHashSetとなっている。
 
 ## 計算量
 
