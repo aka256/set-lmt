@@ -12,7 +12,7 @@ List-Mapped Trieを利用した集合`set_lmt`を追加するData Pack。
 
 ```mcfunction
 # 初期化
-  data modify storage set_lmt.__temp__:set_3d-vec __io__.lmt set from storage set_lmt:lib/lmt init_obj
+  data modify storage set_lmt.__temp__:set_3d-vec __io__.lmt set from storage set_lmt:lib/lmt init_obj.4
 
 # 挿入:[0, 0, 0]
   data modify storage set_lmt.__temp__:set_3d-vec __io__.data set value [0, 0, 0]
@@ -54,11 +54,20 @@ List-Mapped Trieを利用した集合`set_lmt`を追加するData Pack。
 
 ### 初期化
 
-storageの`set_lmt:lib/lmt init_obj`から、集合を保持するためのLMTの初期値をコピーする。
+storageの`set_lmt:lib/lmt init_obj`から、集合を保持するためのLMTの初期値をコピーする。`init_obj`の後ろにLMTのタイプを指定する。(例だとLMTのサイズが16である4を指定している。)サイズはおおよそset_lmtに入る要素数の3~4倍の値がベストではあるが必ずしもこれに従う必要はなく、サイズが大きいものを選択しても問題はない。
 
 ```mcfunction
-data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
+data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
 ```
+
+|タイプ|サイズ|
+|:-:|:-:|
+|`init_obj.4`|16|
+|`init_obj.8`|256|
+|`init_obj.12`|4,096|
+|`init_obj.16`|65,536|
+|`init_obj.24`|16,777,216|
+|`init_obj.36`|4,294,967,296|
 
 ### `insert`
 
@@ -95,7 +104,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
 
 #### 返り値
 
-- `set_lmt.__temp__:set_int __io__.is_element` (byte): 集合に検索した値が含まれているか否か
+- `set_lmt.__temp__:set_int __io__.is_element` (bool): 集合に検索した値が含まれているか否か
 
 ```mcfunction
 # 引数の設定
@@ -134,7 +143,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
 
 ## 実装
 
-この`set_lmt`はLMTをハッシュテーブルとしたHashSetとなっている。ハッシュテーブルの詳細としては、サイズが$2^{32}$でオープンハッシュとなっている。
+この`set_lmt`はLMTをハッシュテーブルとし、オープンハッシュなHashSetとなっている。
 
 ## 計算量
 
@@ -146,7 +155,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj
 |`is_element`|$O(\log^2 n + k)$|$O(m)$|
 |`delete`|$O(\log^2 n + k\log n)$|$O(m)$|
 
-なお、$n$はLMTのサイズ(今回だと$2^{32}$)、$k$はハッシュの衝突数、$m$はlist内の要素数をそれぞれ表している。
+なお、$n$はLMTのサイズ、$k$はハッシュの衝突数、$m$はlist内の要素数をそれぞれ表している。
 
 集合に入る要素数が少ない場合は`set_list`の方が素早く行えるが、この数が大きくなり$m$の値が増えていくと`set_lmt`の方が有利になると考える。(**要検証**)
 
