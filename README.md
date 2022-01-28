@@ -2,16 +2,19 @@
 
 List-Mapped Trieを利用した集合`set_lmt`を追加するData Pack。
 
+**なお集合内の要素を削除することがない場合は、このData Packを使う必要ない。**
+
 ## 特徴
 
 - 重複のない集合をMinecraftで使用できる。
-- 集合の要素数が増加しても`TAG_List`を線形に利用したものよりも、パフォーマンスの低下が起きにくくなる。
+- 集合の要素数が増加しても要素の削除を行ったとき`TAG_List`を線形に利用したものよりも、パフォーマンスの低下が起きにくくなる。
+- ハッシュテーブルとして利用しているLMTのサイズを指定できる。
 - (様々な型に対応した集合を自作できる。)
 
 ## 機能
 
 ```mcfunction
-# 初期化
+# サイズを2^4として初期化
   data modify storage set_lmt.__temp__:set_3d-vec __io__.lmt set from storage set_lmt:lib/lmt init_obj.4
 
 # 挿入:[0, 0, 0]
@@ -54,7 +57,8 @@ List-Mapped Trieを利用した集合`set_lmt`を追加するData Pack。
 
 ### 初期化
 
-storageの`set_lmt:lib/lmt init_obj`から、集合を保持するためのLMTの初期値をコピーする。`init_obj`の後ろにLMTのタイプを指定する。(例だとLMTのサイズが16である4を指定している。)サイズはおおよそset_lmtに入る要素数の3~4倍の値がベストではあるが必ずしもこれに従う必要はなく、サイズが大きいものを選択しても問題はない。
+storageの`set_lmt:lib/lmt init_obj`から、集合を保持するためのLMTの初期値をコピーする。`init_obj`の後ろにLMTのタイプを指定する。(例だとLMTのサイズが16である4を指定している。)
+<!-- サイズはおおよそset_lmtに入る要素数の3~4倍の値がベストではあるが必ずしもこれに従う必要はなく、サイズが大きいものを選択しても問題はない。 -->
 
 ```mcfunction
 data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
@@ -67,7 +71,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
 |`init_obj.12`|4,096|
 |`init_obj.16`|65,536|
 |`init_obj.24`|16,777,216|
-|`init_obj.36`|4,294,967,296|
+|`init_obj.32`|4,294,967,296|
 
 ### `insert`
 
@@ -141,6 +145,20 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
   data modify storage hoge: lmt set from storage set_lmt.__temp__:set_int __io__.lmt
 ```
 
+## LMTのサイズの目安
+
+要素のハッシュ関数が均一に存在すると仮定したとき、実行コマンド数の観点からベストなLMTのサイズを示す。
+
+|タイプ|LMTのサイズ|目安となる要素数|
+|:-:|:-:|:-:|
+|(`set_list`)|1|0 ~ 5|
+|`init_obj.4`|16|6 ~ 58|
+|`init_obj.8`|256|59 ~ 938|
+|`init_obj.12`|4,096|939 ~ 15,018|
+|`init_obj.16`|65,536|15,019 ~ 415,061|
+|`init_obj.24`|16,777,216|415,062 ~ 102,527,431|
+|`init_obj.32`|4,294,967,296|102,527,431 ~ |
+
 ## 実装
 
 この`set_lmt`はLMTをハッシュテーブルとした、オープンハッシュなHashSetとなっている。
@@ -153,11 +171,28 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
 |:-:|:-:|:-:|
 |`insert`|$O(\log^2 n + k)$|$O(m)$|
 |`is_element`|$O(\log^2 n + k)$|$O(m)$|
-|`delete`|$O(\log^2 n + k\log n)$|$O(m)$|
+|`delete`|$O(\log^2 n + k)$|$O(m)$|
 
 なお、$n$はLMTのサイズ、$k$はハッシュの衝突数、$m$はlist内の要素数をそれぞれ表している。
 
-集合に入る要素数が少ない場合は`set_list`の方が素早く行えるが、この数が大きくなり$m$の値が増えていくと`set_lmt`の方が有利になると考える。(**要検証**)
+<details>
+<summary>実行コマンド数による比較</summary>
+
+LMTの中に要素が均一に配置されていると仮定した場合で、ある操作を行ったときのコマンド数を示している。`delete`に関しては$n$の数だけ`set_lmt`内に保存してある状態での比較となっている。また、$k$はLMTで`touch`した先に存在する要素数を表している。
+
+|bit|size|touch|insert|is_element|delete|delete (n=1)|delete (n=10)|delete (n=100)|delete (n=1000)|delete (n=10000)|delete (n=100000)|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|32|4,294,967,296|202|212|210|209+9k|218|218|218|218|218|218|
+|24|16,777,216|156|166|164|163+9k|172|172|172|172|172|172|
+|16|65,536|108|118|116|115+9k|124|124|124|124|124|**133**|
+|12|4,096|84|94|92|91+9k|100|100|100|**100**|**118**|316|
+|8|256|60|70|68|67+9k|76|76|**76**|103|427|3,586|
+|4|16|36|46|44|43+9k|52|**52**|106|610|5,668|56,923|
+|0|1|-|6|4|3+9k|**12**|93|903|9,003|90,003|900,003|
+
+`delete`を用いないのであれば、`set_list`に当たるbit=0がベストであることが分かる。反対に`delete`を用いるのであれば、使用する要素数に応じて予めLMTのサイズを指定するべきであることも分かる。
+
+</details>
 
 ## 謝辞
 
