@@ -2,7 +2,7 @@
 
 List-Mapped Trieを利用した集合`set_lmt`を追加するData Pack。
 
-**なお集合内の要素を削除することがない場合は、このData Packを使う必要ない。**
+**なお集合内の要素を削除することがない場合は、このData Packを使う必要は一切ない。**
 
 ## 特徴
 
@@ -163,7 +163,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
 
 この`set_lmt`はLMTをハッシュテーブルとした、オープンハッシュなHashSetとなっている。
 
-## 計算量
+<!-- ## 計算量
 
 `set_lmt`を用いた時と`TAG_List`を線形に利用した集合である`set_list`を用いた時の計算量の比較を以下に示す。
 
@@ -173,7 +173,7 @@ data modify storage hoge: lmt set from storage set_lmt:lib/lmt init_obj.4
 |`is_element`|$O(\log^2 n + k)$|$O(m)$|
 |`delete`|$O(\log^2 n + k)$|$O(m)$|
 
-なお、$n$はLMTのサイズ、$k$はハッシュの衝突数、$m$はlist内の要素数をそれぞれ表している。
+なお、$n$はLMTのサイズ、$k$はハッシュの衝突数、$m$はlist内の要素数をそれぞれ表している。 -->
 
 <details>
 <summary>実行コマンド数による比較</summary>
